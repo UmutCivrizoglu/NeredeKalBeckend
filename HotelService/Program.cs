@@ -1,5 +1,10 @@
+using System.Reflection;
+using Application.HotelService.Commands.CreateHotel;
+using Core.Interfaces;
+using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +15,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<HotelDbContext>(o=>o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<HotelDbContext>();
+builder.Services.AddMediatR(typeof(CreateHotelCommand).GetTypeInfo().Assembly);
+builder.Services.AddScoped(typeof(IHotelRepository), typeof(HotelRepository));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
