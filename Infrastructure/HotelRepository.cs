@@ -49,6 +49,24 @@ public class HotelRepository : IHotelRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task<ContactInformation?> GetContactInformationByIdAsync(Guid contactInformationId)
+    {
+        return await _context.ContactInformations.FindAsync(contactInformationId);
+    }
+
+    public async Task DeleteContactInformationAsync(ContactInformation contactInformation)
+    {
+        _context.ContactInformations.Remove(contactInformation);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<Hotel> GetHotelByIdWithContactInformationAsync(Guid hotelId)
+    {
+        return await _context.Hotels
+            .Include(h => h.ContactInformations) 
+            .FirstOrDefaultAsync(h => h.Id == hotelId);
+    }
+
     public async Task DeleteHotelAsync(Guid id)
     {
         var hotel = await _context.Hotels.FindAsync(id);

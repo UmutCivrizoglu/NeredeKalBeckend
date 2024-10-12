@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <Folder Include="HotelContactInformationService\" />
-      <Folder Include="HotelService\Queries\" />
     </ItemGroup>
 
     <ItemGroup>
