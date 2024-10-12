@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.HotelService.Commands.CreateHotel;
 
-public class CreateHotelCommandHandler : IRequestHandler<CreateHotelCommand>
+public class CreateHotelCommandHandler : IRequestHandler<CreateHotelCommand,Unit>
 {
     private readonly IHotelRepository _hotelRepository;
 
@@ -27,7 +27,10 @@ public class CreateHotelCommandHandler : IRequestHandler<CreateHotelCommand>
             Id = Guid.NewGuid(),
             ManagerFirstName = request.ManagerFirstName,
             ManagerLastName = request.ManagerLastName,
-            CompanyName = request.CompanyName
+            CompanyName = request.CompanyName,
+            Address = request.Address,
+            City = request.City,
+            Country = request.Country
         };
         await _hotelRepository.AddHotelAsync(hotel);
         return Unit.Value;

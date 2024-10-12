@@ -8,5 +8,6 @@ public interface IHotelRepository
     Task<Hotel?> GetHotelByIdAsync(Guid id);
     Task AddHotelAsync(Hotel hotel);
     Task UpdateHotelAsync(Hotel hotel);
-    Task DeleteHotelAsync(Guid id);
+    Task DeleteHotelAsync(Hotel hotel);
+    Task AddContactInformationAsync(ContactInformation contactInformation);
 }
