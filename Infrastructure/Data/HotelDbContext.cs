@@ -20,7 +20,7 @@ namespace Infrastructure.Data
         {
         }
 
-        // DbSet'ler
+      
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<ContactInformation> ContactInformations { get; set; }
 

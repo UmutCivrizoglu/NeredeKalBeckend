@@ -6,6 +6,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -18,6 +19,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<HotelDbContext>();
 builder.Services.AddMediatR(typeof(CreateHotelCommand).GetTypeInfo().Assembly);
 builder.Services.AddScoped(typeof(IHotelRepository), typeof(HotelRepository));
+builder.Services.AddHostedService<RabbitMQBackgroundService>();
+//builder.Services.AddScoped<IMessageQueueConsumer, RabbitMQMessageQueueConsumer>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
