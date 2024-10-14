@@ -5,6 +5,7 @@ using Application.Report;
 using Core.Interfaces;
 using Infrastructure;
 using Infrastructure.Data;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 
@@ -21,10 +22,29 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<HotelDbContext>();
 builder.Services.AddMediatR(typeof(CreateHotelCommand).GetTypeInfo().Assembly);
 builder.Services.AddTransient(typeof(IHotelRepository), typeof(HotelRepository));
-builder.Services.AddTransient(typeof(IMessageQueueProducer), typeof(RabbitMQMessageQueueProducer));
-builder.Services.AddHostedService<RabbitMQBackgroundService>();
+builder.Services.AddTransient(typeof(IReportService), typeof(ReportService));
+builder.Services.AddTransient<ReportDetailProducer>();
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<ReportConsumer>();
 
-//builder.Services.AddScoped<IMessageQueueConsumer, RabbitMQMessageQueueConsumer>();
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        cfg.ReceiveEndpoint("ReportRequest", e =>
+        {
+            e.ConfigureConsumer<ReportConsumer>(context);
+           
+        });
+    });
+});
+builder.Services.AddHttpClient<ReportService>();
+builder.Services.AddMassTransitHostedService();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

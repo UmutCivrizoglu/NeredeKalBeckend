@@ -1,27 +1,34 @@
+using System.Text;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Application.Report;
 
-public class PrepareReportAsync : IReportService
+public class ReportService : IReportService
 {
   
     private readonly HotelDbContext _context;
+    private readonly ReportDetailProducer _reportDetailProducer;
+    private readonly HttpClient _httpClient;
+    
    // private readonly IMessageQueueProducer _producer;
     
-    public PrepareReportAsync(HotelDbContext hotelRepository)
+    public ReportService(HotelDbContext hotelRepository,ReportDetailProducer reportDetailProducer, HttpClient httpClient)
     {
         _context = hotelRepository;
-       // _producer = producer;
+        _reportDetailProducer = reportDetailProducer;
+        _httpClient = httpClient;
     }
 
-    async Task IReportService.PrepareReportAsync(Guid reportId, string cityName)
+    public async Task PrepareReportAsync(Guid reportId, string cityName)
     {
         Console.WriteLine($"Rapor hazırlanmaya başlandı. Rapor ID: {reportId}, Şehir: {cityName}");
         
         var hotelsInCity = await _context.Hotels
             .Where(h => h.City == cityName)
+            .Include(x=>x.ContactInformations)
             .ToListAsync();
 
        
@@ -36,7 +43,13 @@ public class PrepareReportAsync : IReportService
         Console.WriteLine($"Otel Telefon Numarası Sayısı: {phoneNumberCount}");
         
         await Task.Delay(2000);
-      //  _producer.PublishReportResult(reportId,cityName,hotelCount, phoneNumberCount);
-        Console.WriteLine($"Rapor hazırlandı: Rapor ID: {reportId}, Şehir: {cityName} için {hotelCount} otel kaydedildi.");
+        await _reportDetailProducer.PublishMessage(new ReportDetailRequest
+        {
+            ReportId = reportId,
+            City = cityName,
+            hotelCount = hotelCount,
+            phoneNumberCount = 1
+        });
+     
     }
 }

@@ -7,6 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MassTransit.AspNetCore" Version="7.0.0" />
+        <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.0" />
         <PackageReference Include="MediatR" Version="7.0.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.20"/>
