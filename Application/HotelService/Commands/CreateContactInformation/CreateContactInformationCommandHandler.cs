@@ -1,3 +1,4 @@
+using Application.DTOs;
 using Core.Entity;
 using Core.Interfaces;
 using MediatR;
@@ -23,15 +24,14 @@ namespace Application.HotelService.Commands.CreateContactInformation;
                 throw new Exception("Hotel not found.");
             }
             
-            var contactInformation = new ContactInformation
+            var contactInformationDto = new ContactInformation
             {
-                Id = Guid.NewGuid(),
                 InfoType = request.InfoType,
                 InfoDetail = request.InfoDetail,
                 HotelId = request.HotelId
             };
 
-            await _hotelRepository.AddContactInformationAsync(contactInformation);
+            await _hotelRepository.AddContactInformationAsync(contactInformationDto);
 
             return Unit.Value;
         }

@@ -16,6 +16,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
+      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.Hosting.Abstractions">
+        <HintPath>..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\7.0.20\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,7 @@
 using System.Reflection;
 using Application.HotelService.Commands.CreateHotel;
+using Application.HotelService.Queries.GetAllHotelManagers;
+using Application.Report;
 using Core.Interfaces;
 using Infrastructure;
 using Infrastructure.Data;
@@ -18,8 +20,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<HotelDbContext>();
 builder.Services.AddMediatR(typeof(CreateHotelCommand).GetTypeInfo().Assembly);
-builder.Services.AddScoped(typeof(IHotelRepository), typeof(HotelRepository));
+builder.Services.AddTransient(typeof(IHotelRepository), typeof(HotelRepository));
+builder.Services.AddTransient(typeof(IMessageQueueProducer), typeof(RabbitMQMessageQueueProducer));
 builder.Services.AddHostedService<RabbitMQBackgroundService>();
+
 //builder.Services.AddScoped<IMessageQueueConsumer, RabbitMQMessageQueueConsumer>();
 var app = builder.Build();
 

@@ -9,10 +9,13 @@ public class HotelRepository : IHotelRepository
 {
     
     private readonly HotelDbContext _context;
+   
+    
 
     public HotelRepository(HotelDbContext context)
     {
-        _context = context;    
+        _context = context;
+     
     }
     
     public async Task<List<Hotel?>> GetAllHotelsAsync()
@@ -66,6 +69,12 @@ public class HotelRepository : IHotelRepository
             .Include(h => h.ContactInformations) 
             .FirstOrDefaultAsync(h => h.Id == hotelId);
     }
+
+    public Task PrepareReportAsync(Guid reportId, string cityName)
+    {
+        throw new NotImplementedException();
+    }
+
 
     public async Task DeleteHotelAsync(Guid id)
     {
