@@ -7,6 +7,7 @@ using Application.HotelService.Queries.GetAllHotels;
 using Application.HotelService.Queries.GetHotelManagerById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace HotelService.Controllers;
 
@@ -25,6 +26,16 @@ public class HotelController : ControllerBase
     [HttpPost("CreateHotel")]
     public async Task<IActionResult> CreateHotel([FromBody] CreateHotelCommand command)
     {
+        try
+        {
+          
+            Log.Information("Test amaçlı log oluşturuluyor.");
+            throw new Exception("Deneme hatası: Bu bir test hatasıdır.");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Bir hata oluştu: {HataMesaji}", ex.Message);
+        }
         await _mediator.Send(command);
         return CreatedAtAction(nameof(CreateHotel), new { }, command);
     }

@@ -8,6 +8,8 @@ using Infrastructure.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +45,17 @@ builder.Services.AddMassTransit(x =>
         });
     });
 });
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
+    {
+        AutoRegisterTemplate = true,  
+        IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower()}-logs-{DateTime.UtcNow:yyyy.MM}"
+    })
+    .CreateLogger();
+builder.Host.UseSerilog();
+
+
 builder.Services.AddHttpClient<ReportService>();
 builder.Services.AddMassTransitHostedService();
 var app = builder.Build();
