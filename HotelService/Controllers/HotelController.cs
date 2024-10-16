@@ -26,16 +26,16 @@ public class HotelController : ControllerBase
     [HttpPost("CreateHotel")]
     public async Task<IActionResult> CreateHotel([FromBody] CreateHotelCommand command)
     {
-        try
-        {
-          
-            Log.Information("Test amaçlı log oluşturuluyor.");
-            throw new Exception("Deneme hatası: Bu bir test hatasıdır.");
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Bir hata oluştu: {HataMesaji}", ex.Message);
-        }
+        // try
+        // {
+        //   
+        //     Log.Information("Test amaçlı log oluşturuluyor.");
+        //     throw new Exception("Deneme hatası: Bu bir test hatasıdır.");
+        // }
+        // catch (Exception ex)
+        // {
+        //     Log.Error(ex, "Bir hata oluştu: {HataMesaji}", ex.Message);
+        // }
         await _mediator.Send(command);
         return CreatedAtAction(nameof(CreateHotel), new { }, command);
     }
@@ -48,14 +48,9 @@ public class HotelController : ControllerBase
         return NoContent();
     }
     
-    [HttpPost("{id}/Addcontact")]
-    public async Task<IActionResult> AddContactInformation(Guid id, [FromBody] CreateContactInformationCommand command)
+    [HttpPost("AddContact")]
+    public async Task<IActionResult> AddContactInformation([FromBody] CreateContactInformationCommand command)
     {
-        if (id != command.HotelId)
-        {
-            return BadRequest("Hotel ID mismatch.");
-        }
-
         await _mediator.Send(command);
         return Ok("Contact information added successfully.");
     }

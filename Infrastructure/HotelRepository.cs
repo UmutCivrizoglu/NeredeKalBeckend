@@ -9,20 +9,16 @@ public class HotelRepository : IHotelRepository
 {
     
     private readonly HotelDbContext _context;
-   
     
-
     public HotelRepository(HotelDbContext context)
     {
         _context = context;
      
     }
-    
     public async Task<List<Hotel?>> GetAllHotelsAsync()
     {
         return await _context.Hotels.Include(h => h.ContactInformations).ToListAsync();
     }
-
     public async Task<Hotel> GetHotelByIdAsync(Guid id)
     {
         return await _context.Hotels.FindAsync(id);

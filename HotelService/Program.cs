@@ -1,4 +1,5 @@
 using System.Reflection;
+using Application.AutoMapperProfile;
 using Application.HotelService.Commands.CreateHotel;
 using Application.HotelService.Queries.GetAllHotelManagers;
 using Application.Report;
@@ -22,6 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<HotelDbContext>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddMediatR(typeof(CreateHotelCommand).GetTypeInfo().Assembly);
 builder.Services.AddTransient(typeof(IHotelRepository), typeof(HotelRepository));
 builder.Services.AddTransient(typeof(IReportService), typeof(ReportService));

@@ -1,3 +1,5 @@
+using Application.DTOs;
+using AutoMapper;
 using Core.Entity;
 using Core.Interfaces;
 using MediatR;
@@ -7,10 +9,11 @@ namespace Application.HotelService.Commands.CreateHotel;
 public class CreateHotelCommandHandler : IRequestHandler<CreateHotelCommand,Unit>
 {
     private readonly IHotelRepository _hotelRepository;
-
-    public CreateHotelCommandHandler(IHotelRepository hotelRepository)
+    private readonly IMapper _mapper;
+    public CreateHotelCommandHandler(IHotelRepository hotelRepository, IMapper mapper)
     {
         _hotelRepository = hotelRepository;
+        _mapper = mapper;
     }
 
     public async Task<Unit> Handle(CreateHotelCommand request, CancellationToken cancellationToken)
@@ -20,18 +23,9 @@ public class CreateHotelCommandHandler : IRequestHandler<CreateHotelCommand,Unit
         {
             throw new Exception("Company name is required.");
         }
-
-     
-        var hotel = new Hotel
-        {
-            Id = Guid.NewGuid(),
-            ManagerFirstName = request.ManagerFirstName,
-            ManagerLastName = request.ManagerLastName,
-            CompanyName = request.CompanyName,
-            Address = request.Address,
-            City = request.City,
-            Country = request.Country
-        };
+       
+      var hotel = _mapper.Map<Hotel>(request);
+      hotel.Id = Guid.NewGuid();
         await _hotelRepository.AddHotelAsync(hotel);
         return Unit.Value;
     }

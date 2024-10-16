@@ -15,7 +15,7 @@ namespace Infrastructure.Data
             _configuration = configuration;
         }
 
-        //
+        
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
         {
         }

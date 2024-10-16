@@ -22,6 +22,7 @@ public class GetAllHotelManagersQueryHandler : IRequestHandler<GetAllHotelManage
             HotelName = hotel.CompanyName,
             HotelAddress = hotel.Address,
             Managers = new List<HotelManagerDto>
+            
             {
                 new HotelManagerDto
                 {
