@@ -14,7 +14,7 @@ public class GetHotelDetailsQueryHandler : IRequestHandler<GetHotelDetailsQuery,
 
     public async Task<HotelDetailsDto> Handle(GetHotelDetailsQuery request, CancellationToken cancellationToken)
     {
-        // Oteli getiriyoruz
+      
         var hotel = await _hotelRepository.GetHotelByIdWithContactInformationAsync(request.HotelId);
 
         if (hotel == null)
@@ -22,7 +22,7 @@ public class GetHotelDetailsQueryHandler : IRequestHandler<GetHotelDetailsQuery,
             throw new Exception("Hotel not found.");
         }
 
-        // Otel detaylarını ve iletişim bilgilerini DTO'ya dönüştürüyoruz
+      
         var hotelDetails = new HotelDetailsDto
         {
             HotelName = hotel.CompanyName,

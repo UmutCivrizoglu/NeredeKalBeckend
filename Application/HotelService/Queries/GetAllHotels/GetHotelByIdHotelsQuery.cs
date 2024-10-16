@@ -21,7 +21,7 @@ public class HotelDetailsDto
     public List<ContactInformationDto> ContactInformations { get; set; }  
 }
 
-public class ContactInformationDto
+public partial class ContactInformationDto
 {
     public string InfoType { get; set; }  
     public string InfoDetail { get; set; }  

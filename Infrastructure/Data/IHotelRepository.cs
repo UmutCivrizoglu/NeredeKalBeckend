@@ -14,5 +14,6 @@ public interface IHotelRepository
     Task DeleteContactInformationAsync(ContactInformation contactInformation);
     Task<Hotel?> GetHotelByIdWithContactInformationAsync(Guid requestHotelId);
     Task PrepareReportAsync(Guid reportId, string cityName);
-    
+    Task<List<Hotel>> GetAllHotelsWithContactInfo();
+
 }

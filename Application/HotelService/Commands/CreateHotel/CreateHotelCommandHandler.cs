@@ -15,7 +15,6 @@ public class CreateHotelCommandHandler : IRequestHandler<CreateHotelCommand,Unit
         _hotelRepository = hotelRepository;
         _mapper = mapper;
     }
-
     public async Task<Unit> Handle(CreateHotelCommand request, CancellationToken cancellationToken)
     {
        

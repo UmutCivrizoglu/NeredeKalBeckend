@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Application.AutoMapperProfile;
 using Application.HotelService.Commands.CreateHotel;
 using Application.HotelService.Queries.GetAllHotelManagers;
@@ -56,8 +57,6 @@ Log.Logger = new LoggerConfiguration()
     })
     .CreateLogger();
 builder.Host.UseSerilog();
-
-
 builder.Services.AddHttpClient<ReportService>();
 builder.Services.AddMassTransitHostedService();
 var app = builder.Build();

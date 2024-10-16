@@ -65,6 +65,12 @@ public class HotelRepository : IHotelRepository
             .Include(h => h.ContactInformations) 
             .FirstOrDefaultAsync(h => h.Id == hotelId);
     }
+    public async Task<List<Hotel>> GetAllHotelsWithContactInfo()
+    {
+        return await _context.Hotels
+            .Include(h => h.ContactInformations).ToListAsync();
+
+    }
 
     public Task PrepareReportAsync(Guid reportId, string cityName)
     {

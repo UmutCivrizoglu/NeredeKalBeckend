@@ -82,4 +82,11 @@ public class HotelController : ControllerBase
         var hotelDetails = await _mediator.Send(query);
         return Ok(hotelDetails);
     }
+    [HttpGet("GetAllHotels")]
+    public async Task<IActionResult> GetAllHotels()
+    {
+        var query = new GetAllHotelsQuery(); 
+        var hotels = await _mediator.Send(query); 
+        return Ok(hotels); 
+    }
 }
