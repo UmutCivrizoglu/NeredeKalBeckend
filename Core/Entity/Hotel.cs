@@ -9,7 +9,9 @@ public class Hotel
     
     public string Address { get; set; }         
     public string City { get; set; }            
-    public string Country { get; set; }         
+    public string Country { get; set; }
+
+    public bool isDeleted { get; set; }
 
     public ICollection<ContactInformation> ContactInformations { get; set; }
 }

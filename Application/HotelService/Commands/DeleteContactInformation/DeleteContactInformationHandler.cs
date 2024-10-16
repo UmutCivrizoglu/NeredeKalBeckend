@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.HotelService.Commands.DeleteContactInformation;
 
-public class DeleteContactInformationCommandHandler : IRequestHandler<DeleteContactInformatıonCommand.DeleteContactInformationCommand, Unit>
+public class DeleteContactInformationCommandHandler : IRequestHandler<DeleteContactInformatıonCommand, Unit>
 {
     private readonly IHotelRepository _hotelRepository;
 
@@ -12,17 +12,10 @@ public class DeleteContactInformationCommandHandler : IRequestHandler<DeleteCont
         _hotelRepository = hotelRepository;
     }
 
-    public async Task<Unit> Handle(DeleteContactInformatıonCommand.DeleteContactInformationCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteContactInformatıonCommand request, CancellationToken cancellationToken)
     {
-        var contactInformation = await _hotelRepository.GetContactInformationByIdAsync(request.ContactInformationId);
 
-        if (contactInformation == null)
-        {
-            throw new Exception("Contact information not found.");
-        }
-
-        await _hotelRepository.DeleteContactInformationAsync(contactInformation);
-
+        await _hotelRepository.DeleteContactInformationAsync(request.HotelId);
         return Unit.Value;
     }
 }

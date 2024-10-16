@@ -2,15 +2,13 @@ using MediatR;
 
 namespace Application.HotelService.Commands.DeleteContactInformation;
 
-public class DeleteContactInformatıonCommand
+public class DeleteContactInformatıonCommand : IRequest<Unit>
 {
-    public class DeleteContactInformationCommand : IRequest<Unit>
-    {
-        public Guid ContactInformationId { get; set; }
+        public Guid HotelId { get; set; }
 
-        public DeleteContactInformationCommand(Guid contactInformationId)
+        public DeleteContactInformatıonCommand(Guid hotelId)
         {
-            ContactInformationId = contactInformationId;
+            HotelId = hotelId;
         }
-    }
+    
 }

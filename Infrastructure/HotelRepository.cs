@@ -36,11 +36,14 @@ public class HotelRepository : IHotelRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteHotelAsync(Hotel hotel)
+    public async Task DeleteHotelAsync(Guid hotelId)
     {
-        _context.Hotels.Remove(hotel);  
-        await _context.SaveChangesAsync(); 
+      var hotel = await _context.Hotels.FindAsync(hotelId);
+      hotel.isDeleted = true;
+      await _context.SaveChangesAsync();
     }
+ 
+
 
     public async Task AddContactInformationAsync(ContactInformation contactInformation)
     {
@@ -53,10 +56,15 @@ public class HotelRepository : IHotelRepository
         return await _context.ContactInformations.FindAsync(contactInformationId);
     }
 
-    public async Task DeleteContactInformationAsync(ContactInformation contactInformation)
+    public async Task DeleteContactInformationAsync(Guid id)
     {
-        _context.ContactInformations.Remove(contactInformation);
-        await _context.SaveChangesAsync();
+        var hotel = await _context.Hotels.Include(h=>h.ContactInformations).
+            FirstOrDefaultAsync(h=>h.Id==id);
+        foreach (var contact in hotel.ContactInformations)
+        {
+            contact.IsDeleted = true;
+        }
+        await _context.SaveChangesAsync(); 
     }
 
     public async Task<Hotel> GetHotelByIdWithContactInformationAsync(Guid hotelId)
@@ -78,13 +86,5 @@ public class HotelRepository : IHotelRepository
     }
 
 
-    public async Task DeleteHotelAsync(Guid id)
-    {
-        var hotel = await _context.Hotels.FindAsync(id);
-        if (hotel != null)
-        {
-            _context.Hotels.Remove(hotel);
-            await _context.SaveChangesAsync();
-        }
-    }
+  
 }

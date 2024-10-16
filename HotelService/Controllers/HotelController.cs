@@ -54,10 +54,10 @@ public class HotelController : ControllerBase
         await _mediator.Send(command);
         return Ok("Contact information added successfully.");
     }
-    [HttpDelete("contact/{contactId}")]
-    public async Task<IActionResult> DeleteContactInformation(Guid contactId)
+    [HttpDelete("contact")]
+    public async Task<IActionResult> DeleteContactInformation(Guid hotelId)
     {
-        var command = new DeleteContactInformatıonCommand.DeleteContactInformationCommand(contactId);
+        var command = new DeleteContactInformatıonCommand(hotelId);
         await _mediator.Send(command);
         return NoContent(); 
     }
