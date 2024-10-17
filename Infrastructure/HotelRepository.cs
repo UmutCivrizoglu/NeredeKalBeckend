@@ -9,17 +9,16 @@ public class HotelRepository : IHotelRepository
 {
     
     private readonly HotelDbContext _context;
-
+    
     public HotelRepository(HotelDbContext context)
     {
-        _context = context;    
+        _context = context;
+     
     }
-    
     public async Task<List<Hotel?>> GetAllHotelsAsync()
     {
         return await _context.Hotels.Include(h => h.ContactInformations).ToListAsync();
     }
-
     public async Task<Hotel> GetHotelByIdAsync(Guid id)
     {
         return await _context.Hotels.FindAsync(id);
@@ -37,11 +36,14 @@ public class HotelRepository : IHotelRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteHotelAsync(Hotel hotel)
+    public async Task DeleteHotelAsync(Guid hotelId)
     {
-        _context.Hotels.Remove(hotel);  
-        await _context.SaveChangesAsync(); 
+      var hotel = await _context.Hotels.FindAsync(hotelId);
+      hotel.isDeleted = true;
+      await _context.SaveChangesAsync();
     }
+ 
+
 
     public async Task AddContactInformationAsync(ContactInformation contactInformation)
     {
@@ -49,13 +51,40 @@ public class HotelRepository : IHotelRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteHotelAsync(Guid id)
+    public async Task<ContactInformation?> GetContactInformationByIdAsync(Guid contactInformationId)
     {
-        var hotel = await _context.Hotels.FindAsync(id);
-        if (hotel != null)
-        {
-            _context.Hotels.Remove(hotel);
-            await _context.SaveChangesAsync();
-        }
+        return await _context.ContactInformations.FindAsync(contactInformationId);
     }
+
+    public async Task DeleteContactInformationAsync(Guid id)
+    {
+        var hotel = await _context.Hotels.Include(h=>h.ContactInformations).
+            FirstOrDefaultAsync(h=>h.Id==id);
+        foreach (var contact in hotel.ContactInformations)
+        {
+            contact.IsDeleted = true;
+        }
+        await _context.SaveChangesAsync(); 
+    }
+
+    public async Task<Hotel> GetHotelByIdWithContactInformationAsync(Guid hotelId)
+    {
+        return await _context.Hotels
+            .Include(h => h.ContactInformations) 
+            .FirstOrDefaultAsync(h => h.Id == hotelId);
+    }
+    public async Task<List<Hotel>> GetAllHotelsWithContactInfo()
+    {
+        return await _context.Hotels
+            .Include(h => h.ContactInformations).ToListAsync();
+
+    }
+
+    public Task PrepareReportAsync(Guid reportId, string cityName)
+    {
+        throw new NotImplementedException();
+    }
+
+
+  
 }

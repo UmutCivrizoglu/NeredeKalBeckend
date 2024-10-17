@@ -15,12 +15,12 @@ namespace Infrastructure.Data
             _configuration = configuration;
         }
 
-        //
+        
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
         {
         }
 
-        // DbSet'ler
+      
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<ContactInformation> ContactInformations { get; set; }
 

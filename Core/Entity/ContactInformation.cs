@@ -6,5 +6,6 @@ public class ContactInformation
     public string InfoType { get; set; }  
     public string InfoDetail { get; set; }  
     public Guid HotelId { get; set; } 
-    public Hotel Hotel { get; set; }  
+    public Hotel Hotel { get; set; }
+    public bool IsDeleted { get; set; }
 }
