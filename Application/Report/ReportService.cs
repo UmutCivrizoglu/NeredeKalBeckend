@@ -24,7 +24,7 @@ public class ReportService : IReportService
 
     public async Task PrepareReportAsync(Guid reportId, string cityName)
     {
-        Console.WriteLine($"Rapor hazırlanmaya başlandı. Rapor ID: {reportId}, Şehir: {cityName}");
+        Console.WriteLine($"Rapor hazırlanmaya başlandı Rapor ID: {reportId}, Şehir: {cityName}");
         
         var hotelsInCity = await _context.Hotels
             .Where(h => h.City == cityName)
